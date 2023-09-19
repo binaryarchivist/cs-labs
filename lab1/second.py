@@ -4,33 +4,33 @@ def has_numbers(input_string):
             return True
     return False
 
+
+def generate_modified_alphabet(key2):
+    key2 = ''.join(sorted(set(key2.upper()), key=key2.upper().index))
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    modified_alphabet = key2 + \
+                        ''.join(filter(lambda char: char not in key2, alphabet))
+    print(f'Modified alphabet: {modified_alphabet}')
+    return modified_alphabet
+
 def caesar_cipher_with_two_keys(text: str, key1: int, key2: str, action: str) -> any:
     result: str = ""
 
-    alphabet: str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    alphabet: str = generate_modified_alphabet(key2)
 
     updated_text: str = text.upper().replace(" ", "")
 
-    index_key2: int = 0
-
     for char in updated_text:
-        if 'A' <= char <= 'Z':
-            if action == "encryption":
-                key = (key1 + ord(key2[index_key2 % len(key2)].upper()) - ord('A')) % 26
-
-                encrypted_char = alphabet[(alphabet.index(char) + key) % 26]
-                result += encrypted_char
-
-                index_key2 += 1
-            elif action == "decryption":
-                key = (key1 + ord(key2[index_key2 % len(key2)].upper()) - ord('A')) % 26
-
-                decrypted_char = alphabet[(alphabet.index(char) - key) % 26]
-                result += decrypted_char
-
-                index_key2 += 1
+        if char in alphabet:
+            new_index = 0
+            index = alphabet.index(char)
+            if action == 'encryption':
+                new_index = (index + key1) % len(alphabet)
+            elif action == 'decryption':
+                new_index = (index - key1 + len(alphabet)) % len(alphabet)
+            result += alphabet[new_index]
         else:
-            raise ValueError("The text must contain only letters from 'A' to 'Z'.")
+            return 'Only English alphabet characters (A-Z) are allowed.'
 
     return result
 
