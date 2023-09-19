@@ -1,3 +1,9 @@
+def has_numbers(input_string):
+    for char in input_string:
+        if char.isdigit():
+            return True
+    return False
+
 def caesar_cipher(text: str, key: int, action: str) -> any:
     result: str = ''
 
@@ -26,12 +32,12 @@ if __name__ == "__main__":
         raise ValueError("The key must be between 1 and 25.")
 
     action: str = input("Choose the operation (encryption/decryption): ").lower()
-    if action == "encryption" or action == "decryption":
-        print()
-    else:
+    if not (action == "encryption" or action == "decryption"):
         raise ValueError("Operation must be encryption or decryption")
 
     text: str = input("Enter the text: ")
+    if has_numbers(text):
+        raise ValueError("Text has numbers")
 
     if action == "encryption":
         result: str = caesar_cipher(text, key, "encryption")
