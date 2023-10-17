@@ -3,7 +3,7 @@ from Vigenere import Vigenere
 MIN_KEY_LENGTH = 3
 
 text: str = input("Text (no symbols/digits, any case, space allowed) = ")
-print(text)
+
 while not text or not Vigenere.validate_text(text):
     text = input("Invalid text, input again: ")
 
